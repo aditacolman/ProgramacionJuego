@@ -3,13 +3,23 @@ import json
 import random
 from tkinter import *
 from pruebabd import registrar_usuario
+import funciones
+from functools import partial
 
-#Ventana principal
-ventana = Tk()
-ventana.title("Login Usuario")
+#Ventana de sesión
+ventanaSesion = Tk()
+ventanaPrincipal= Tk()
+ventanaPrincipal.title("")
+ventanaPrincipal.withdraw()
+ventanaJuego = Tk()
+ventanaJuego.title("")
+ventanaJuego.withdraw()
+iniciarJuego= Button(ventanaPrincipal,command=funciones.iniciarJuego, text="Iniciar juego").place(x=100, y=100)
+lista_ventanas = [ventanaSesion, ventanaPrincipal, ventanaJuego]
+ventanaSesion.title("Login Usuario")
 
 #mainFrame 
-mainFrame= Frame(ventana)
+mainFrame= Frame(ventanaSesion)
 mainFrame.pack()
 mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
 
@@ -36,10 +46,22 @@ def usuario_contrasena():
     contrasena= contrasenaUsuario.get()
     registrar_usuario(nombre, contrasena)
 
+
+            
+
 #Botones
-iniciarSesion= Button(mainFrame, text="Iniciar sesión")
+iniciarSesion= Button(mainFrame, command= partial(funciones.ventanaP, lista_ventanas) , text="Iniciar sesión")
 iniciarSesion.grid(column=1, row=3, ipadx=5, ipady=5, padx=10, pady=10)
 registrarUsuario= Button(mainFrame, command= usuario_contrasena, text="Registrar")
-registrarUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)
+registrarUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)           
 
-ventana.mainloop()
+def ventanaE():
+    #Ventana elección
+    ventanaPrin
+    ventanaEleccion= Tk()
+    
+    
+
+
+
+ventanaSesion.mainloop()
