@@ -1,10 +1,4 @@
-
-
-def elegirModo():
-    print("HOLA")
-    pass
-
-def ventanaP(lista_ventanas):
+def AparecerVP(lista_ventanas):
     #Ventana principal
     ventanaSesion = lista_ventanas[0]
     ventanaPrincipal = lista_ventanas[1]
@@ -12,3 +6,11 @@ def ventanaP(lista_ventanas):
     ventanaPrincipal.deiconify()
     ventanaPrincipal.title("")
     #Boton
+
+def Eleccion():
+    print("Funcionó")
+    pass
+
+    
+def ventana():
+    pass

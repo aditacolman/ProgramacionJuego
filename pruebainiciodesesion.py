@@ -39,34 +39,25 @@ def usuario_contrasena():
     registrar_usuario(nombre, contrasena)
 
 
-#Ventana principal
-ventanaPrincipal= Tk()
-ventanaPrincipal.title("")
-ventanaPrincipal.withdraw()
-elegirPeli= Button(ventanaPrincipal,command=funciones.elegirModo, text="Película").place(x=100, y=100)
-elegirSerie= Button(ventanaPrincipal,command=funciones.elegirModo, text="Serie").place(x=40, y=100)
-
-#Ventana de modo
-ventanaModo = Tk()
-ventanaModo.title("")
-ventanaModo.withdraw()
+#Ventana elección
+ventanaEleccion= Tk()
+ventanaEleccion.title("")
+ventanaEleccion.withdraw()
+elegirPeli= Button(ventanaEleccion,command=funciones.Eleccion, text="Película").place(x=100, y=100)
+elegirSerie= Button(ventanaEleccion,command=funciones.Eleccion, text="Serie").place(x=40, y=100)
 
 #Ventana de juego
+ventanaJuego= Tk()
+ventanaJuego.title("")
 
-lista_ventanas = [ventanaSesion, ventanaPrincipal, ventanaModo]
+
+lista_ventanas = [ventanaSesion, ventanaEleccion, ventanaJuego]
 
 #Botones de sesión
-iniciarSesion= Button(mainFrame, command= partial(funciones.ventanaP, lista_ventanas), text="Iniciar sesión")
+iniciarSesion= Button(mainFrame, command= partial(funciones.AparecerVP, lista_ventanas), text="Iniciar sesión")
 iniciarSesion.grid(column=1, row=3, ipadx=5, ipady=5, padx=10, pady=10)
 registrarUsuario= Button(mainFrame, command= usuario_contrasena, text="Registrar")
 registrarUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)       
-
-
-def ventanaE():
-    #Ventana elección
-    ventanaPrin
-    ventanaEleccion= Tk()
-    
 
 
 ventanaSesion.mainloop()
