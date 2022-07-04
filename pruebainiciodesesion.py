@@ -8,25 +8,18 @@ from functools import partial
 
 #Ventana de sesión
 ventanaSesion = Tk()
-ventanaPrincipal= Tk()
-ventanaPrincipal.title("")
-ventanaPrincipal.withdraw()
-ventanaJuego = Tk()
-ventanaJuego.title("")
-ventanaJuego.withdraw()
-iniciarJuego= Button(ventanaPrincipal,command=funciones.iniciarJuego, text="Iniciar juego").place(x=100, y=100)
-lista_ventanas = [ventanaSesion, ventanaPrincipal, ventanaJuego]
 ventanaSesion.title("Login Usuario")
 
-#mainFrame 
+#mainFrame de sesión
 mainFrame= Frame(ventanaSesion)
 mainFrame.pack()
 mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
 
-#Textos y titulos
+#Textos y titulos de sesión
 titulo= Label(mainFrame, text="Login de Usuario", font=("Arial 24"))
 titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
 
+#Label's de sesión
 nombreLabel= Label(mainFrame, text="Nombre: ")
 nombreLabel.grid(column=0, row=1)
 contrasenaLabel = Label(mainFrame, text="Contraseña: ")
@@ -36,7 +29,6 @@ contrasenaLabel.grid(column=0, row=2)
 nombreUsuario= StringVar()
 nombreEntry = Entry(mainFrame, textvariable=nombreUsuario)
 nombreEntry.grid(column=1, row=1)
-
 contrasenaUsuario= StringVar()
 contrasenaEntry = Entry(mainFrame, textvariable=contrasenaUsuario, show="*")
 contrasenaEntry.grid(column=1, row=2)
@@ -47,21 +39,34 @@ def usuario_contrasena():
     registrar_usuario(nombre, contrasena)
 
 
-            
+#Ventana principal
+ventanaPrincipal= Tk()
+ventanaPrincipal.title("")
+ventanaPrincipal.withdraw()
+elegirPeli= Button(ventanaPrincipal,command=funciones.elegirModo, text="Película").place(x=100, y=100)
+elegirSerie= Button(ventanaPrincipal,command=funciones.elegirModo, text="Serie").place(x=40, y=100)
 
-#Botones
-iniciarSesion= Button(mainFrame, command= partial(funciones.ventanaP, lista_ventanas) , text="Iniciar sesión")
+#Ventana de modo
+ventanaModo = Tk()
+ventanaModo.title("")
+ventanaModo.withdraw()
+
+#Ventana de juego
+
+lista_ventanas = [ventanaSesion, ventanaPrincipal, ventanaModo]
+
+#Botones de sesión
+iniciarSesion= Button(mainFrame, command= partial(funciones.ventanaP, lista_ventanas), text="Iniciar sesión")
 iniciarSesion.grid(column=1, row=3, ipadx=5, ipady=5, padx=10, pady=10)
 registrarUsuario= Button(mainFrame, command= usuario_contrasena, text="Registrar")
-registrarUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)           
+registrarUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)       
+
 
 def ventanaE():
     #Ventana elección
     ventanaPrin
     ventanaEleccion= Tk()
     
-    
-
 
 
 ventanaSesion.mainloop()

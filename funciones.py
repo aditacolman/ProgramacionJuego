@@ -1,6 +1,6 @@
 
 
-def iniciarJuego():
+def elegirModo():
     print("HOLA")
     pass
 
