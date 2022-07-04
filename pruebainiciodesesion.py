@@ -49,7 +49,7 @@ elegirSerie= Button(ventanaEleccion,command=funciones.Eleccion, text="Serie").pl
 #Ventana de juego
 ventanaJuego= Tk()
 ventanaJuego.title("")
-
+ventanaJuego.withdraw()
 
 lista_ventanas = [ventanaSesion, ventanaEleccion, ventanaJuego]
 
