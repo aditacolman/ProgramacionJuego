@@ -1,13 +1,9 @@
 from tkinter import *
-from functools import partial
-
 
 def usuario_contrasena():
     nombre= nombreUsuario.get()
     contrasena= contrasenaUsuario.get()
     registrar_usuario(nombre, contrasena)
-
-
 
 class ventana:
     indice = 0
@@ -54,17 +50,10 @@ class ventana:
         self.indice += 1
         self.windows[self.indice].deiconify()
         
- 
-    
-    
     tipos = [crear_ventana_sesion, crear_ventana_eleccion, crear_ventana_juego]
-
     
     def __init__(self):
         self.vs = self.tipos[0](self)
         self.ve = self.tipos[1](self)
         self.vj = self.tipos[2](self)
-        #self.ve.withdraw()
-        #self.vj.withdraw()
         self.windows = [self.vs, self.ve, self.vj]
-        

@@ -1,6 +1,6 @@
 import sqlite3
 
-conexion= sqlite3.connect("/home/alumno/DuarteColman/BDJuego.db")
+conexion= sqlite3.connect("/home/alumno/ProgramacionJuego/BDJuego.db")
 cursor= conexion.cursor()
 
 def guardar_ps(id_imdb, nombre, nom_ac, nom_su, tipo, url):
