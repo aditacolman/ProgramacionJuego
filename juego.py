@@ -5,7 +5,7 @@ from tkinter import *
 import vlc
 import pafy
 import time
-from pruebabd import guardar_ps, registrar_usuario
+from bd_utils import guardar_ps, registrar_usuario
 
 def sortear_pelicula():
     url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"

@@ -1,10 +1,12 @@
 from tkinter import *
+import bd_utils
 
-class Ventana:
+
+class Interfaz:
     indice = 0
+
     def crear_ventana_sesion(self):
-        ventanaSesion = Tk()
-        ventanaSesion.title("Login Usuario")
+        ventanaSesion = Login()
         return ventanaSesion
 
     def crear_ventana_juego(self):
@@ -34,29 +36,39 @@ class Ventana:
         self.vj = self.tipos[2](self)
         self.windows = [self.vs, self.ve, self.vj]
 
+
 class Login:
-    def framear(self):
-        mainFrame= Frame.Ventana(ventanaSesion)
+
+    def __init__(self):
+        self.ventana = Tk()
+        self.ventana.title("Login Usuario")
+        self.logueado = False
+        mainFrame = Frame(self.ventana)
         mainFrame.pack()
-        titulo= Label(mainFrame, text="Login de Usuario", font=("Arial 24"))
+        titulo = Label(mainFrame, text="Login de Usuario", font=("Arial 24"))
         titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
         mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
-        iniciarSesion= Button(mainFrame, command=self.siguiente, text="Iniciar sesión")
+        iniciarSesion = Button(mainFrame, command=self.iniciar_sesion, text="Iniciar sesión")
         iniciarSesion.grid(column=1, row=3, ipadx=5, ipady=5, padx=10, pady=10)
-        registrarUsuario= Button(mainFrame, command= usuario_contrasena, text="Registrar")
-        registrarUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)
-        nombreLabel= Label(mainFrame, text="Nombre: ")
+        registroUsuario = Button(mainFrame, command=self.registrar_usuario, text="Registrar")
+        registroUsuario.grid(column=0, row=3, ipadx=5, ipady=5, padx=10, pady=10)
+        nombreLabel = Label(mainFrame, text="Nombre: ")
         nombreLabel.grid(column=0, row=1)
         contrasenaLabel = Label(mainFrame, text="Contraseña: ")
         contrasenaLabel.grid(column=0, row=2)
-        nombreUsuario= StringVar()
-        nombreEntry = Entry(mainFrame, textvariable=nombreUsuario)
+        self.nombreUsuario= StringVar()
+        nombreEntry = Entry(mainFrame, textvariable=self.nombreUsuario)
         nombreEntry.grid(column=1, row=1)
-        contrasenaUsuario= StringVar()
-        contrasenaEntry = Entry(mainFrame, textvariable=contrasenaUsuario, show="*")
+        self.contrasenaUsuario= StringVar()
+        contrasenaEntry = Entry(mainFrame, textvariable=self.contrasenaUsuario, show="*")
         contrasenaEntry.grid(column=1, row=2)
     
-    def usuario_contrasena():
-        nombre= nombreUsuario.get()
-        contrasena= contrasenaUsuario.get()
-        registrar_usuario(nombre, contrasena)
+    def registrar_usuario(self):
+        nombre= self.nombreUsuario.get()
+        contrasena= self.contrasenaUsuario.get()
+        bd_utils.registrar_usuario(nombre, contrasena)
+
+    def iniciar_sesion(self):
+        print("Siguiente")
+        self.logueado = True
+        return self.logueado

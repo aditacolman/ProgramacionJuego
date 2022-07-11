@@ -1,5 +1,14 @@
 import tkinter as tk
+import funciones
 
+class Respuesta:
+    
+    def 
+    
+
+
+
+'''
 #def construir_pantalla():
 root = tk.Tk()
 root.title("Banderas")
@@ -47,7 +56,7 @@ label = partes[3]
 root = partes[4]
 
 
-'''
+
 def valorar(lista):
     nombre = ""
     for i in lista:
