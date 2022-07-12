@@ -10,17 +10,13 @@ class Interfaz:
         return ventanaSesion
 
     def crear_ventana_juego(self):
-        ventanaJuego= Tk()
-        ventanaJuego.title("")
-        ventanaJuego.withdraw()
+        ventanaJuego= Game()
+        #ventanaJuego.withdraw()
         return ventanaJuego
 
     def crear_ventana_eleccion(self):
-        ventanaEleccion= Tk()
-        ventanaEleccion.title("")
-        ventanaEleccion.withdraw()
-        elegirPeli= Button(ventanaEleccion,command=self.siguiente, text="Película").place(x=100, y=100)
-        elegirSerie= Button(ventanaEleccion,command=self.siguiente, text="Serie").place(x=40, y=100)
+        ventanaEleccion= Choice()
+        #ventanaEleccion.withdraw()
         return ventanaEleccion
     
     def siguiente(self):
@@ -40,10 +36,10 @@ class Interfaz:
 class Login:
 
     def __init__(self):
-        self.ventana = Tk()
-        self.ventana.title("Login Usuario")
+        self.ventlogin = Tk()
+        self.ventlogin.title("Login Usuario")
         self.logueado = False
-        mainFrame = Frame(self.ventana)
+        mainFrame = Frame(self.ventlogin)
         mainFrame.pack()
         titulo = Label(mainFrame, text="Login de Usuario", font=("Arial 24"))
         titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
@@ -68,7 +64,26 @@ class Login:
         contrasena= self.contrasenaUsuario.get()
         bd_utils.registrar_usuario(nombre, contrasena)
 
+    def verificar_uc(self):
+        bd_
+
     def iniciar_sesion(self):
         print("Siguiente")
         self.logueado = True
         return self.logueado
+
+class Choice:
+
+    def __init__(self):
+        self.ventchoice = Tk()
+        self.ventchoice.title("")
+
+
+class Game:
+
+    def __init__(self):
+        self.ventgame = Tk()
+        self.ventgame.title("")
+        elegirPeli = Button(ventanaEleccion, command=self.siguiente, text="Película").place(x=100, y=100)
+        elegirSerie = Button(ventanaEleccion, command=self.siguiente, text="Serie").place(x=40, y=100)
+
