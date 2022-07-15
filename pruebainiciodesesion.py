@@ -1,4 +1,3 @@
-from bd_utils import registrar_usuario
 import funciones
 
 if __name__ == "__main__":

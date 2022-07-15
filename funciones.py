@@ -62,12 +62,20 @@ class Login:
     def registrar_usuario(self):
         nombre= self.nombreUsuario.get()
         contrasena= self.contrasenaUsuario.get()
-        bd_utils.registrar_usuario(nombre, contrasena)
+        #registrar= bd_utils.Base()
+        bd_utils.registro_usuario(nombre, contrasena)
 
     def verificar_uc(self):
-        bd_
+        nombre= self.nombreUsuario.get()
+        contrasena= self.contrasenaUsuario.get()
 
-    def iniciar_sesion(self):
+
+
+
+
+
+
+
         print("Siguiente")
         self.logueado = True
         return self.logueado
