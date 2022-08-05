@@ -2,7 +2,7 @@ import sqlite3
 
 class Base:
     def __init__(self):
-        self.conexion = sqlite3.connect("/home/alumno/ProgramacionJuego/BDJuego.db")
+        self.conexion = sqlite3.connect("BDJuego.db")
         self.cursor = self.conexion.cursor()
         self.respuestas_registrousuario = ["El registro de usuario ha sido exitoso", "La contraseña es incorrecta", "El usuario no existe"]
 

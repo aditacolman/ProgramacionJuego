@@ -5,7 +5,10 @@ from tkinter import *
 import vlc
 import pafy
 import time
-from bd_utils import guardar_ps, registrar_usuario
+from bd_utils import Base
+
+base = Base()
+
 
 def sortear_pelicula():
     url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
@@ -20,7 +23,7 @@ def sortear_pelicula():
     nombre_peli = dicpelicula2['title']
     id_imdb_peli = dicpelicula2['imDbId']
     url_peli = dicpelicula2['videoUrl']
-    guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", url_peli)
+    base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", url_peli)
     print("Tráiler de las películas: {}".format(dicpelicula2['videoUrl']))
     return url_peli
 
@@ -37,7 +40,7 @@ def sortear_serie():
     nombre_serie = dicseries2['title']
     id_imdb_serie = dicseries2['imDbId']
     url_serie = dicseries2['videoUrl']
-    guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", url_serie)
+    base.guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", url_serie)
     print ("Tráiler de las series: {}".format(dicseries2['videoUrl']))
     return url_serie
 
