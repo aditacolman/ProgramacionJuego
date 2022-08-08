@@ -17,6 +17,7 @@ class Video:
         self.url_peliculaspopulares= "https://imdb-api.com/en/API/MostPopularMovies/k_b4axdozw"
         self.url_peli= ""
         self.url_serie= ""
+        self.titulo= ""
     
     def sortear_pelicula(self):
         peliazar=random.randint(0,99)
@@ -27,7 +28,7 @@ class Video:
         dicpelicula2= json.loads(response2.text) 
         nombre_peli = dicpelicula2['title']
         id_imdb_peli = dicpelicula2['imDbId']
-        url_peli = dicpelicula2['videoUrl']
+        self.url_peli = dicpelicula2['videoUrl']
         base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", url_peli)
         print("Tráiler de las películas: {}".format(dicpelicula2['videoUrl']))
         return self.url_peli
@@ -49,64 +50,36 @@ class Video:
             print("consultas agotadas, buscando en BD")
         return self.url_serie
 
-
     def descargar_peli(self, url):
-        yt = YouTube(url)
+        yt = YouTube(self.url_peli)
         yt.streams
         resp = yt.streams.filter(file_extension='mp4')
         len(resp)
         resp[0].download()
-        return resp[0].title
+        self.titulo=resp[0].title
+        print("Video descargado")
+        return self.titulo
 
-    def reproducir(self, nombre):
-        media = vlc.MediaPlayer("{}.mp4".format(nombre))
+    def reproducir(self):
+        media = vlc.MediaPlayer("{}.mp4".format(self.titulo))
         media.play()
-
-
-url= ["https://www.youtube.com/watch?v=Y-sv2E_MJ-g","https://www.youtube.com/watch?v=7GffFIMy91Q",
-      "https://www.youtube.com/watch?v=iewyrckGA7o", "https://www.youtube.com/watch?v=oZ1FN6VKUU8",
-      "https://www.youtube.com/watch?v=3FxlAwzRJw8"]
 
 v = Video()
 
-v.reproducir("Bad Bunny - Me Porto Bonito (LetraLyrics)")
+#url= ["https://www.youtube.com/watch?v=Y-sv2E_MJ-g","https://www.youtube.com/watch?v=7GffFIMy91Q",
+      #"https://www.youtube.com/watch?v=iewyrckGA7o", "https://www.youtube.com/watch?v=oZ1FN6VKUU8",
+      #"https://www.youtube.com/watch?v=3FxlAwzRJw8"]
 
-
-
-'''
-    def iniciarpeli():
-        try:
-            url = sortear_pelicula()
-            video = pafy.new(url)
-            best = video.getbest()
-            media = vlc.MediaPlayer(best.url)
-            media.play()
-            
-        except Exception as error_p:
-            print(error_p)
-            iniciarpeli()
-
-    def iniciarserie():
-        try:
-            url= sortear_serie()
-            video = pafy.new(url)
-            best = video.getbest()
-            media = vlc.MediaPlayer(best.url)
-            media.play()
-            
-        except Exception as error_s:
-            print(error_s)
-            iniciarserie()
-
+#v.reproducir("Bad Bunny - Me Porto Bonito (LetraLyrics)")
 
 ventana = Frame(height=500, width=500)
 ventana.pack()
 
     #etiqueta= Label(text= "Juego").place(x=0, y=10)
 
-boton1 = Button(ventana, command= iniciarpeli, text= "Película").place(x= 250, y=200)
-boton2= Button(ventana, command= iniciarserie, text= "Serie").place(x= 50, y=200)
+boton1 = Button(ventana, command= v.reproducir, text= "Película").place(x= 250, y=200)
+#boton2= Button(ventana, command= v., text= "Serie").place(x= 50, y=200)
 
 ventana.mainloop()
-'''
+
 
