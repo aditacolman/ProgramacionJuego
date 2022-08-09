@@ -29,7 +29,7 @@ class Video:
         nombre_peli = dicpelicula2['title']
         id_imdb_peli = dicpelicula2['imDbId']
         self.url_peli = dicpelicula2['videoUrl']
-        base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", url_peli)
+        base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", self.url_peli)
         print("Tráiler de las películas: {}".format(dicpelicula2['videoUrl']))
         return self.url_peli
 
@@ -44,15 +44,17 @@ class Video:
             nombre_serie = dicseries2['title']
             id_imdb_serie = dicseries2['imDbId']
             url_serie = dicseries2['videoUrl']
-            base.guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", url_serie)
+            base.guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", self.url_serie)
             print ("Tráiler de las series: {}".format(dicseries2['videoUrl']))
         else:
             print("consultas agotadas, buscando en BD")
         return self.url_serie
 
-    def descargar_peli(self, url):
+    def descargar_peli(self):
+        print(self.url_peli)
         yt = YouTube(self.url_peli)
         yt.streams
+        print("descargando")
         resp = yt.streams.filter(file_extension='mp4')
         len(resp)
         resp[0].download()
@@ -61,10 +63,21 @@ class Video:
         return self.titulo
 
     def reproducir(self):
+        print("{}.mp4".format(self.titulo))
         media = vlc.MediaPlayer("{}.mp4".format(self.titulo))
         media.play()
+    
+    def desc_repr(self):
+        print("sorteando Pelìcula")
+        self.sortear_pelicula()
+        print("Descargando Pelìcula")
+        self.descargar_peli()
+        print("Reproducir Pelìcula")
+        self.reproducir()
 
-v = Video()
+
+if __name__ == '__main__':
+    v = Video()
 
 #url= ["https://www.youtube.com/watch?v=Y-sv2E_MJ-g","https://www.youtube.com/watch?v=7GffFIMy91Q",
       #"https://www.youtube.com/watch?v=iewyrckGA7o", "https://www.youtube.com/watch?v=oZ1FN6VKUU8",
@@ -72,14 +85,14 @@ v = Video()
 
 #v.reproducir("Bad Bunny - Me Porto Bonito (LetraLyrics)")
 
-ventana = Frame(height=500, width=500)
-ventana.pack()
+    ventana = Frame(height=500, width=500)
+    ventana.pack()
 
     #etiqueta= Label(text= "Juego").place(x=0, y=10)
 
-boton1 = Button(ventana, command= v.reproducir, text= "Película").place(x= 250, y=200)
+    boton1 = Button(ventana, command= v.desc_repr, text= "Película").place(x= 250, y=200)
 #boton2= Button(ventana, command= v., text= "Serie").place(x= 50, y=200)
 
-ventana.mainloop()
+    ventana.mainloop()
 
 
