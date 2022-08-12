@@ -60,6 +60,7 @@ class Video:
         resp[0].download()
         self.titulo=resp[0].title
         print("Video descargado")
+        yt.
         return self.titulo
 
     def reproducir(self):
