@@ -1,7 +1,24 @@
-import vlc
+import kivy
 from kivy.app import App
-from kivy.uix.video import Video
 from kivy.uix.widget import Widget
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.videoplayer import VideoPlayer
+
+
+from kivy.uix.video import Video
+
+'''
+class MyVideoApp(App):
+
+    def build(self):
+        self.player= VideoPlayer(source='QUEVEDO.mp4',  state='play', options={'allow_stretch': True})
+        return (self.player)
+
+if __name__ == '__main__':
+
+    MyVideoApp().run()
+'''
+
  
 class VideoWindow(App):
     def build(self):
@@ -9,16 +26,8 @@ class VideoWindow(App):
         video.state = 'play'
         video.options = {'eos': 'loop'}
         video.allow_stretch = True
-        video.duration(10)
         return video
  
 if __name__ == "__main__":
     window = VideoWindow()
     window.run()
-
-'''
-#vlc
-video= "1.mp4"
-media = vlc.MediaPlayer(video)
-media.play()
-'''

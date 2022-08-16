@@ -26,4 +26,3 @@ class R:
     
 R= R()
 R.descargar_peli()
-R.reproducir()
