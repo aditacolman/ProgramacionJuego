@@ -7,19 +7,21 @@ from kivy.uix.videoplayer import VideoPlayer
 
 from kivy.uix.video import Video
 
-'''
+
 class MyVideoApp(App):
 
     def build(self):
-        self.player= VideoPlayer(source='QUEVEDO.mp4',  state='play', options={'allow_stretch': True})
-        return (self.player)
+        video = Video(source='QUEVEDO.mp4')
+        video.state = 'play'
+        video.position = (1000000)
+        return video
 
 if __name__ == '__main__':
 
     MyVideoApp().run()
-'''
 
- 
+
+'''
 class VideoWindow(App):
     def build(self):
         video = Video(source='QUEVEDO.mp4')
@@ -31,3 +33,4 @@ class VideoWindow(App):
 if __name__ == "__main__":
     window = VideoWindow()
     window.run()
+'''

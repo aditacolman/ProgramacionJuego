@@ -1,5 +1,5 @@
 from tkinter import *
-import bd_utils
+from bd_utils import *
 
 
 class Interfaz:

@@ -1,4 +1,16 @@
 import sqlite3
+import bcrypt
+
+def encriptar(contrasena):
+    contrasena = password.encode('utf-8')
+    hashed = bcrypt.hashpw(contrasena, bcrypt.gensalt(10))
+    return hashed.decode('utf-8')
+
+def chechPas(contrasena, hashed):
+    if bcrypt.checkpw(contrasena, hashed):
+        return True
+    else:
+        return False
 
 class Base:
     def __init__(self):
@@ -20,6 +32,7 @@ class Base:
         return False
 
     def registro_usuario(self, usuario, contrasena):
+        contrasena = encriptar(contrasena)
         if not self.existe_usuario(usuario):
             sql = '''insert into USUARIOS(Usuario, Contrasena) values ("{}", "{}");'''
             self.cursor.execute(sql.format(usuario, contrasena))
