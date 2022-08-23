@@ -81,7 +81,7 @@ class ScreenLogin:
             print("Faltan datos")
     
 class ScreenChoice:
-
+    
     def __init__(self):
         self.ventchoice = Tk()
         self.ventchoice.title("")
@@ -90,10 +90,11 @@ class ScreenChoice:
         titulo = Label(mainFrame, text="Elección de juego", font=("Arial 24"))
         titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
         mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
-        serieBoton = Button(mainFrame, command=self.verificar_uc, text="Iniciar sesión")
+        serieBoton = Button(mainFrame, text="Iniciar sesión")
         serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        peliBoton = Button(mainFrame, command=self.registrar_usuario, text="Registrar")
+        peliBoton = Button(mainFrame, text="Registrar")
         peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
+
 
 class ScreenGame:
 

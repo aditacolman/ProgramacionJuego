@@ -11,9 +11,9 @@ from kivy.uix.video import Video
 class MyVideoApp(App):
 
     def build(self):
-        video = Video(source='QUEVEDO.mp4')
+        video = VideoPlayer(source='QUEVEDO.mp4')
         video.state = 'play'
-        video.position = (1000000)
+        video.position = (10)
         return video
 
 if __name__ == '__main__':
