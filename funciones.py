@@ -1,45 +1,45 @@
 from tkinter import *
 import bd_utils
 
-
-
 class Interfaz:
     indice = 0
     
     def __init__(self):
-        self.vs = self.tipos[0](self)
-        self.ve = self.tipos[1](self)
-        self.vj = self.tipos[2](self)
-        self.windows = [self.vs, self.ve, self.vj]
+        self.tipos = [self.crear_ventana_sesion, self.crear_ventana_eleccion, self.crear_ventana_juego]
+        self.siguiente()
         
     def crear_ventana_sesion(self):
         ventanaSesion = ScreenLogin()
+        ventanaSesion.ventana.deiconify()
         return ventanaSesion
 
     def crear_ventana_eleccion(self):
         ventanaEleccion= ScreenChoice()
-        ventanaEleccion.withdraw()
+        ventanaEleccion.ventana.deiconify()
+        #ventanaEleccion.withdraw()
         return ventanaEleccion
     
     def crear_ventana_juego(self):
         ventanaJuego= ScreenGame()
-        ventanaJuego.withdraw()
+        #poner deiconify()
+        #ventanaJuego.withdraw()
         return ventanaJuego
     
     def siguiente(self):
-        self.windows[self.indice].withdraw()
+        ventAct = self.tipos[self.indice]()
+        ventAct.ventana.mainloop()
         self.indice += 1
-        self.windows[self.indice].deiconify()
+        self.windows[self.indice].ventana.deiconify()
 
-    tipos = [crear_ventana_sesion, crear_ventana_eleccion, crear_ventana_juego]
+        
 
 class ScreenLogin:
 
     def __init__(self):
-        self.ventlogin = Tk()
-        self.ventlogin.title("Login Usuario")
+        self.ventana = Tk()
+        self.ventana.title("Login Usuario")
         #self.logueado = False
-        mainFrame = Frame(self.ventlogin)
+        mainFrame = Frame(self.ventana)
         mainFrame.pack()
         titulo = Label(mainFrame, text="Login de Usuario", font=("Arial 24"))
         titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
@@ -76,30 +76,33 @@ class ScreenLogin:
             resp = self.base.iniciar_sesion(nombre, contrasena)
             print(self.base.respuestas_login[resp])
             sig= Interfaz()
-            Interfaz.siguiente()
+            sig.siguiente()
         else:
             print("Faltan datos")
     
 class ScreenChoice:
     
     def __init__(self):
-        self.ventchoice = Tk()
-        self.ventchoice.title("")
-        mainFrame = Frame(self.ventchoice)
+        
+        self.ventana = Tk()
+        self.ventana.title("")
+        mainFrame = Frame(self.ventana)
         mainFrame.pack()
         titulo = Label(mainFrame, text="Elección de juego", font=("Arial 24"))
         titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
         mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
-        serieBoton = Button(mainFrame, text="Iniciar sesión")
+        serieBoton = Button(mainFrame, text="Serie")
         serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        peliBoton = Button(mainFrame, text="Registrar")
+        peliBoton = Button(mainFrame, text="Pelicula")
         peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-
+        print(self.ventana.deiconify())
 
 class ScreenGame:
-
+    pass
+'''
     def __init__(self):
         self.ventgame = Tk()
         self.ventgame.title("")
-        elegirPeli = Button(self.ventgame, command=self.siguiente, text="Película").place(x=100, y=100)
-        elegirSerie = Button(self.ventgame, command=self.siguiente, text="Serie").place(x=40, y=100)
+        elegirPeli = Button(self.ventgame,text="Película").place(x=100, y=100)
+        elegirSerie = Button(self.ventgame,text="Serie").place(x=40, y=100)
+'''

@@ -6,10 +6,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.videoplayer import VideoPlayer
 from kivy.uix.video import Video
 
-class descargar():
+class descargar(App):
     
     def __init__(self):
-        self.url= "https://www.youtube.com/watch?v=A_g3lMcWVy0"
+        self.url= "https://www.youtube.com/watch?v=kLw1UrDqC9Q"
         
     def descargar_peli(self):
         yt = YouTube(self.url)
@@ -21,8 +21,6 @@ class descargar():
         print("Video descargado")
         return self.titulo
 
-class MyVideoApp(App):
-
     def build(self):
         video = VideoPlayer(source='QUEVEDO.mp4')
         video.state = 'play'
@@ -31,7 +29,7 @@ class MyVideoApp(App):
     
 if __name__ == '__main__':
 
-    MyVideoApp().run()
+    descargar().run()
 
 '''
 class R:
