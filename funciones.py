@@ -1,6 +1,10 @@
 from tkinter import *
 import bd_utils
 
+def funcion():
+    ventana.state(newstate='withdraw')
+    #ventana.state(newstate='normal')
+
 class Interfaz:
     indice = 0
     
@@ -75,8 +79,8 @@ class ScreenLogin:
         if nombre and contrasena:
             resp = self.base.iniciar_sesion(nombre, contrasena)
             print(self.base.respuestas_login[resp])
-            sig= Interfaz()
-            sig.siguiente()
+            self.ventana.state(newstate='withdraw')
+            sig= ScreenChoice()
         else:
             print("Faltan datos")
     

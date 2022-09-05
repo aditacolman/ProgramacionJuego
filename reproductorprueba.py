@@ -3,6 +3,10 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.videoplayer import VideoPlayer
+from tkinter import *
+
+ventana= Tk()
+ventana.mainloop()
 
 
 from kivy.uix.video import Video
@@ -11,7 +15,7 @@ from kivy.uix.video import Video
 class MyVideoApp(App):
 
     def build(self):
-        video = VideoPlayer(source='QUEVEDO.mp4')
+        video = Video(source='QUEVEDO.mp4')
         video.state = 'play'
         video.position = (10)
         return video
