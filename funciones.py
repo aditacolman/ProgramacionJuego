@@ -42,7 +42,6 @@ class ScreenLogin:
     def __init__(self):
         self.ventana = Tk()
         self.ventana.title("Login Usuario")
-        #self.logueado = False
         mainFrame = Frame(self.ventana)
         mainFrame.pack()
         titulo = Label(mainFrame, text="Login de Usuario", font=("Arial 24"))
@@ -100,6 +99,8 @@ class ScreenChoice:
         peliBoton = Button(mainFrame, text="Pelicula")
         peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         print(self.ventana.deiconify())
+    
+    
 
 class ScreenGame:
     pass

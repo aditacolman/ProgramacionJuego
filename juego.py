@@ -19,7 +19,7 @@ def sortear_pelicula():
     id_peliculas= dicpelicula['items'][peliazar]['id']
     response2= requests.request("GET", url.format(id_peliculas))
     dicpelicula2= json.loads(response2.text)
-        
+    
     nombre_peli = dicpelicula2['title']
     id_imdb_peli = dicpelicula2['imDbId']
     url_peli = dicpelicula2['videoUrl']

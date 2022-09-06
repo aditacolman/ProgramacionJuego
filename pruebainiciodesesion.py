@@ -16,4 +16,3 @@ root.mainloop()
 
 if __name__ == "__main__":
     inicio = funciones.Interfaz()
-    inicio.siguiente()
