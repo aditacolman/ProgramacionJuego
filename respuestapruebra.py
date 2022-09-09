@@ -1,7 +1,14 @@
 from tkinter import *
 import funciones
+from functools import partial
+from tkvideo import tkvideo
 
-'''
+palabra2 = "hoola"
+lista = []
+
+root = Tk()
+root.title("¿?")
+
 def limitador(*entry_text):
     print(entry_text)
     pos = int(entry_text[1][6:])
@@ -14,36 +21,18 @@ def limitador(*entry_text):
         lista[pos-1].focus_set()
         if len(entry_text[0].get()) > 0:
             entry_text[0].set(entry_text[0].get()[:1].upper())
-'''
-
-
-palabra2 = "hoola"
-lista = []
-
-root = Tk()
-root.title("Banderas")
-
-def limitador(entry_text):
-    if len(entry_text.get()) > 0:
-        entry_text.set(entry_text.get()[:1])
 
 for i in range(len(palabra2)):
     entry_text = StringVar()  
-    i_nombre = Entry(root, width=2 , textvariable = entry_text, justify=CENTER)
-    entry_text.trace("w", lambda *args: limitador(entry_text))
-    lista.append(i_nombre)
-    i_nombre.grid(column=i,row=0)
+    respuesta = Entry(root, width=2, textvariable = entry_text,justify=CENTER)
+    entry_text.trace("w", partial(limitador, entry_text))
+    lista.append(respuesta)
+    respuesta.grid(column=i,row=0)
+    
+lista[0].focus_set()
 
 root.mainloop()
 
-
-import tkinter as tk
-import funciones
-
-class Respuesta:
-    
-    def 
-    
 
 
 
