@@ -19,7 +19,6 @@ lista = []
 root.title("¿?")
 
 def limitador(*entry_text):
-    print(entry_text)
     pos = int(entry_text[1][6:])
     if(lista[pos].get()):
         if pos < len(lista)-1:
@@ -36,7 +35,7 @@ for i in range(len(palabra2)):
     respuesta = Entry(frameRespuesta, width=2, textvariable = entry_text,justify=CENTER)
     entry_text.trace("w", partial(limitador, entry_text))
     lista.append(respuesta)
-    respuesta.grid(column=i,row=0)
+    respuesta.grid(column=i,row=2)
     
 lista[0].focus_set()
 

@@ -6,6 +6,7 @@ import random
 import vlc
 import pafy
 import time
+from functools import partial
 
 def funcion():
     ventana.state(newstate='withdraw')
@@ -70,7 +71,7 @@ class ScreenLogin:
     def registrar_usuario(self):
         nombre= self.nombreUsuario.get()
         contrasena= self.contrasenaUsuario.get()
-        if nombre  and contrasena:
+        if nombre and contrasena:
             resp = self.base.registro_usuario(nombre, contrasena)
             print(self.base.respuestas_registrousuario[resp])
         else:
@@ -114,6 +115,7 @@ class ScreenChoice:
         response2= requests.request("GET", url.format(id_peliculas))
         dicpelicula2= json.loads(response2.text)
         nombre_peli = dicpelicula2['title']
+        print(nombre_peli)
         id_imdb_peli = dicpelicula2['imDbId']
         url_peli = dicpelicula2['videoUrl']
         self.base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", url_peli)
@@ -147,6 +149,8 @@ class ScreenChoice:
         except Exception as error_p:
             print(error_p)
             self.iniciarpeli()
+        self.ventana.state(newstate='withdraw')
+        sig= ScreenGame()
 
     def iniciarserie(self):
         try:
@@ -159,14 +163,44 @@ class ScreenChoice:
         except Exception as error_s:
             print(error_s)
             self.iniciarserie()
+        
     
 
 class ScreenGame:
-    pass
-'''
+
     def __init__(self):
-        self.ventgame = Tk()
-        self.ventgame.title("")
-        elegirPeli = Button(self.ventgame,text="Película").place(x=100, y=100)
-        elegirSerie = Button(self.ventgame,text="Serie").place(x=40, y=100)
-'''
+        self.ventana = Tk()
+        self.ventana.title("")
+        self.palabra2 = "hoola"
+        self.lista = []
+        verificarBoton = Button(self.ventana, text="ok", command=partial(self.valorar, self.lista))
+        verificarBoton.grid(column=10, row=0)
+        for i in range(len(self.palabra2)):
+            entry_text = StringVar()  
+            respuesta = Entry(self.ventana, width=2, textvariable = entry_text, justify=CENTER)
+            entry_text.trace("w", partial(limitador, entry_text))
+            self.lista.append(respuesta)
+            respuesta.grid(column=i,row=0)
+            self.lista[0].focus_set()
+        
+    def valorar(self, lista):
+        nombre = ""
+        for i in self.lista:
+            letra = i.get()
+            nombre += letra
+        if nombre.upper() == palabra2.upper():
+            print("Ganaste")
+        else:
+            print("Perdiste")
+
+    def limitador(self, *entry_text):
+        pos = int(entry_text[1][6:])
+        if(self.lista[pos].get()):
+            if pos < len(lista)-1:
+                self.lista[pos+1].focus_set()
+            if len(entry_text[0].get()) > 0:
+                entry_text[0].set(entry_text[0].get()[:1].upper())
+        else:
+            self.lista[pos-1].focus_set()
+            if len(entry_text[0].get()) > 0:
+                entry_text[0].set(entry_text[0].get()[:1].upper())

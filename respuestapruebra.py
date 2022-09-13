@@ -9,8 +9,18 @@ lista = []
 root = Tk()
 root.title("¿?")
 
+
+def valorar(lista):
+    nombre = ""
+    for i in lista:
+        letra = i.get()
+        nombre += letra
+    if nombre.upper() == palabra2.upper():
+        print("Ganaste")
+    else:
+        print("Perdiste")
+
 def limitador(*entry_text):
-    print(entry_text)
     pos = int(entry_text[1][6:])
     if(lista[pos].get()):
         if pos < len(lista)-1:
@@ -28,7 +38,9 @@ for i in range(len(palabra2)):
     entry_text.trace("w", partial(limitador, entry_text))
     lista.append(respuesta)
     respuesta.grid(column=i,row=0)
-    
+
+b_guardar = Button(root, text="ok", command=partial(valorar, lista))
+b_guardar.grid(column=10, row=0)
 lista[0].focus_set()
 
 root.mainloop()
@@ -111,15 +123,6 @@ def limitador(*entry_text):
 
 
 
-
-datos_bandera = sortear_bandera()
-nombre_pais = datos_bandera[0]
-url_final = datos_bandera[1]
-photo = datos_bandera[2]
-label.image = photo
-label.config(image = photo)
-
-
 lista = []
 
 for i in range(len(nombre_pais)):
@@ -134,68 +137,5 @@ b_guardar = tk.Button(f3, text="ok", command=partial(valorar, lista))
 b_guardar.grid(column=0, row=0)
 lista[0].focus_set()
 root.mainloop()
-'''
 
-
-
-'''
-def valorar(lista):
-    nombre = ""
-    for i in lista:
-        letra = i.get()
-        nombre += letra
-    if nombre.upper() == nombre_pais.upper():
-        print("Ganaste, sumaste un punto")
-    else:
-        print("Perdiste")
-        
-b_guardar = tk.Button(f3, text="ok", command=partial(valorar, lista))
-
-
-
-#partes = construir_pantalla()
-f1 = partes[0]
-f2 = partes[1]
-f3 = partes[2]
-label = partes[3]
-root = partes[4]
-
-
-
-def valorar(lista):
-    nombre = ""
-    for i in lista:
-        letra = i.get()
-        nombre += letra
-    if nombre.upper() == nombre_pais.upper():
-        print("Ganaste, sumaste un punto")
-    else:
-        print("Perdiste")
-
-
-
-
-
-datos_bandera = sortear_bandera()
-nombre_pais = datos_bandera[0]
-url_final = datos_bandera[1]
-photo = datos_bandera[2]
-label.image = photo
-label.config(image = photo)
-
-
-lista = []
-
-for i in range(len(nombre_pais)):
-    entry_text = tk.StringVar()  
-    i_nombre = tk.Entry(f2, width=2, textvariable = entry_text,  justify=tk.CENTER)
-    entry_text.trace("w", partial(limitador,   entry_text))
-    lista.append(i_nombre)
-    i_nombre.grid(column=i,row=0)
-    
-b_guardar = tk.Button(f3, text="ok", command=partial(valorar, lista))
-
-b_guardar.grid(column=0, row=0)
-lista[0].focus_set()
-root.mainloop()
 '''
