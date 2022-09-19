@@ -3,9 +3,8 @@ import bd_utils
 import requests
 import json
 import random
-import vlc
-import pafy
 import time
+from tkvideo import tkvideo
 from functools import partial
 
 def funcion():
@@ -94,15 +93,15 @@ class ScreenChoice:
         self.base = bd_utils.Base()
         self.ventana = Tk()
         self.ventana.title("")
-        mainFrame = Frame(self.ventana)
-        mainFrame.pack()
-        titulo = Label(mainFrame, text="Elección de juego", font=("Arial 24"))
-        titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
-        mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
-        serieBoton = Button(mainFrame, command= self.iniciarserie, text="Serie")
-        serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        peliBoton = Button(mainFrame, command= self.iniciarpeli, text="Pelicula")
-        peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
+        self.mainFrame = Frame(self.ventana)
+        self.mainFrame.pack()
+        self.titulo = Label(self.mainFrame, text="Elección de juego", font=("Arial 24"))
+        self.titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
+        self.mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
+        self.serieBoton = Button(self.mainFrame, command= self.iniciarserie, text="Serie")
+        self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
+        self.peliBoton = Button(self.mainFrame, command= self.iniciarpeli, text="Pelicula")
+        self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         print(self.ventana.deiconify())
     
     def sortear_pelicula(self):
@@ -168,39 +167,52 @@ class ScreenChoice:
 
 class ScreenGame:
 
-    def __init__(self):
+    def __init__(self, nombre):
         self.ventana = Tk()
         self.ventana.title("")
-        self.palabra2 = "hoola"
+        #self.ruta= ruta
         self.lista = []
-        verificarBoton = Button(self.ventana, text="ok", command=partial(self.valorar, self.lista))
-        verificarBoton.grid(column=10, row=0)
+        self.palabra2= nombre
+        self.ventana.geometry('700x600')
+        self.ventana.resizable(width=False, height=False)
+        self.frameRespuesta = Frame(self.ventana)
+        self.frameRespuesta.pack()
+        self.labelVideo = Label(self.ventana)
+        self.labelVideo.pack()
+        self.reproductor = tkvideo("QUEVEDO.mp4", self.labelVideo, loop = 1, size = (700,720))
+        self.reproductor.play()
+        self.verificarBoton = Button(self.ventana, text="ok", command=partial(self.valorar))
+        self.verificarBoton.pack()
         for i in range(len(self.palabra2)):
-            entry_text = StringVar()  
-            respuesta = Entry(self.ventana, width=2, textvariable = entry_text, justify=CENTER)
-            entry_text.trace("w", partial(limitador, entry_text))
+            self.entry_text = StringVar()  
+            respuesta = Entry(self.ventana, width=2, textvariable = self.entry_text, justify=CENTER)
+            self.entry_text.trace("w", partial(self.limitador))
             self.lista.append(respuesta)
-            respuesta.grid(column=i,row=0)
+            respuesta.pack()
             self.lista[0].focus_set()
         
-    def valorar(self, lista):
+    def valorar(self):
         nombre = ""
         for i in self.lista:
             letra = i.get()
             nombre += letra
-        if nombre.upper() == palabra2.upper():
+        if nombre.upper() == self.palabra2.upper():
             print("Ganaste")
         else:
             print("Perdiste")
 
-    def limitador(self, *entry_text):
-        pos = int(entry_text[1][6:])
+    def limitador(self):
+        pos = int(self.entry_text[1][6:])
         if(self.lista[pos].get()):
             if pos < len(lista)-1:
                 self.lista[pos+1].focus_set()
-            if len(entry_text[0].get()) > 0:
-                entry_text[0].set(entry_text[0].get()[:1].upper())
+            if len(self.entry_text[0].get()) > 0:
+                self.entry_text[0].set(self.entry_text[0].get()[:1].upper())
         else:
             self.lista[pos-1].focus_set()
-            if len(entry_text[0].get()) > 0:
-                entry_text[0].set(entry_text[0].get()[:1].upper())
+            if len(self.entry_text[0].get()) > 0:
+                self.entry_text[0].set(self.entry_text[0].get()[:1].upper())
+                
+if __name__ == "__main__":
+    sg= ScreenGame("holahola")
+   

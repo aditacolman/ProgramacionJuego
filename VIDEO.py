@@ -16,7 +16,7 @@ reproductor.play()
 palabra2 = "hoola"
 lista = []
 
-root.title("¿?")
+
 
 def limitador(*entry_text):
     pos = int(entry_text[1][6:])

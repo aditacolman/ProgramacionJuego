@@ -11,11 +11,11 @@ root.title("¿?")
 
 
 def valorar(lista):
-    nombre = ""
+    palabra = ""
     for i in lista:
         letra = i.get()
-        nombre += letra
-    if nombre.upper() == palabra2.upper():
+        palabra += letra
+    if palabra.upper() == palabra2.upper():
         print("Ganaste")
     else:
         print("Perdiste")
