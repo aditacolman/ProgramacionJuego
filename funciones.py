@@ -172,8 +172,8 @@ class ScreenGame:
         self.ventana.title("")
         #self.ruta= ruta
         self.lista = []
-        self.palabra2= nombre
-        self.ventana.geometry('700x600')
+        self.palabra2= "hooola"
+        #self.ventana.geometry('700x600')
         self.ventana.resizable(width=False, height=False)
         self.frameRespuesta = Frame(self.ventana)
         self.frameRespuesta.pack()
@@ -182,21 +182,21 @@ class ScreenGame:
         self.reproductor = tkvideo("QUEVEDO.mp4", self.labelVideo, loop = 1, size = (700,720))
         self.reproductor.play()
         self.verificarBoton = Button(self.ventana, text="ok", command=partial(self.valorar))
-        self.verificarBoton.pack()
+        self.verificarBoton.grid(column=1,row=2)
         for i in range(len(self.palabra2)):
             self.entry_text = StringVar()  
             respuesta = Entry(self.ventana, width=2, textvariable = self.entry_text, justify=CENTER)
             self.entry_text.trace("w", partial(self.limitador))
             self.lista.append(respuesta)
-            respuesta.pack()
+            respuesta.grid(column=i,row=2)
             self.lista[0].focus_set()
         
     def valorar(self):
-        nombre = ""
+        self.nombre = ""
         for i in self.lista:
-            letra = i.get()
-            nombre += letra
-        if nombre.upper() == self.palabra2.upper():
+            self.letra = i.get()
+            self.nombre += self.letra
+        if self.nombre.upper() == self.palabra2.upper():
             print("Ganaste")
         else:
             print("Perdiste")
