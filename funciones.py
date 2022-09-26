@@ -135,7 +135,7 @@ class ScreenChoice:
         url_serie = dicseries2['videoUrl']
         self.base.guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", url_serie)
         print ("Tráiler de las series: {}".format(dicseries2['videoUrl']))
-        return url_serie
+        return url_serie, nombre_serie
     
     def iniciarpeli(self):
         try:
@@ -166,31 +166,49 @@ class ScreenChoice:
     
 
 class ScreenGame:
-
-    def __init__(self, nombre):
-        self.ventana = Tk()
-        self.ventana.title("")
-        #self.ruta= ruta
+    sc = ScreenChoice()
+    titulo= sc.sortear_serie()
+    
+            
+    def __init__(self):
+        print (self.palabra2)
+        self.palabra2 = titulo
         self.lista = []
-        self.palabra2= "hooola"
-        #self.ventana.geometry('700x600')
-        self.ventana.resizable(width=False, height=False)
-        self.frameRespuesta = Frame(self.ventana)
-        self.frameRespuesta.pack()
-        self.labelVideo = Label(self.ventana)
+        self.root = Tk()
+        self.root.resizable(width=False, height=False)
+        self.frameRespuesta = Frame(self.root)
+        self.frameVideo = Frame(self.root)
+        self.frameRespuesta.grid(column=0, row=1)
+        self.frameVideo.grid(column=0, row=0)
+        self.labelVideo = Label(self.frameVideo)
         self.labelVideo.pack()
-        self.reproductor = tkvideo("QUEVEDO.mp4", self.labelVideo, loop = 1, size = (700,720))
+        self.reproductor = tkvideo("QUEVEDO.mp4", self.labelVideo, loop = 1, size = (640,480))
         self.reproductor.play()
-        self.verificarBoton = Button(self.ventana, text="ok", command=partial(self.valorar))
-        self.verificarBoton.grid(column=1,row=2)
+    
         for i in range(len(self.palabra2)):
-            self.entry_text = StringVar()  
-            respuesta = Entry(self.ventana, width=2, textvariable = self.entry_text, justify=CENTER)
-            self.entry_text.trace("w", partial(self.limitador))
-            self.lista.append(respuesta)
-            respuesta.grid(column=i,row=2)
-            self.lista[0].focus_set()
+            print(i)
+            self.entry_text = StringVar() 
+            self.respuesta = Entry(self.frameRespuesta, width=2, textvariable = self.entry_text, justify=CENTER)
+            self.entry_text.trace("w", partial(self.limitador, self.entry_text))
+            self.lista.append(self.respuesta)
+            self.respuesta.grid(column=i,row=0)
+            self.verificarBoton = Button(self.frameRespuesta, text="ok", command=partial(self.valorar))
+            self.verificarBoton.grid(column=0,row=1)
+        self.root.mainloop()
         
+    def limitador(self, *entry_text):
+        pos = int(entry_text[1][6:])
+        print(pos)
+        if(self.lista[pos].get()):
+            if pos < len(self.lista)-1:
+                self.lista[pos+1].focus_set()
+            if len(entry_text[0].get()) > 0:
+                entry_text[0].set(entry_text[0].get()[:1].upper())
+        else:
+            self.lista[pos-1].focus_set()
+            if len(entry_text[0].get()) > 0:
+                entry_text[0].set(entry_text[0].get()[:1].upper())
+    
     def valorar(self):
         self.nombre = ""
         for i in self.lista:
@@ -200,19 +218,8 @@ class ScreenGame:
             print("Ganaste")
         else:
             print("Perdiste")
-
-    def limitador(self):
-        pos = int(self.entry_text[1][6:])
-        if(self.lista[pos].get()):
-            if pos < len(lista)-1:
-                self.lista[pos+1].focus_set()
-            if len(self.entry_text[0].get()) > 0:
-                self.entry_text[0].set(self.entry_text[0].get()[:1].upper())
-        else:
-            self.lista[pos-1].focus_set()
-            if len(self.entry_text[0].get()) > 0:
-                self.entry_text[0].set(self.entry_text[0].get()[:1].upper())
                 
 if __name__ == "__main__":
-    sg= ScreenGame("holahola")
+    sg = ScreenGame()
+
    
