@@ -1,10 +1,4 @@
 from pytube import YouTube
-import kivy
-from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.videoplayer import VideoPlayer
-from kivy.uix.video import Video
 
 class descargar(App):
     
@@ -20,12 +14,6 @@ class descargar(App):
         self.titulo=resp[0].title
         print("Video descargado")
         return self.titulo
-
-    def build(self):
-        video = VideoPlayer(source='QUEVEDO.mp4')
-        video.state = 'play'
-        video.position = (10)
-        return video
     
 if __name__ == '__main__':
 

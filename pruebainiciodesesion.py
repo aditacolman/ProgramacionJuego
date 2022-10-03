@@ -3,4 +3,5 @@ from tkinter import *
 import time
 
 if __name__ == "__main__":
-    inicio = funciones.Interfaz()
+    inicio = funciones.ScreenLogin()
+    inicio.ventana.mainloop()

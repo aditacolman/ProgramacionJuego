@@ -7,10 +7,7 @@ import time
 from tkvideo import tkvideo
 from functools import partial
 
-def funcion():
-    ventana.state(newstate='withdraw')
-    #ventana.state(newstate='normal')
-
+'''
 class Interfaz:
     indice = 0
     
@@ -40,6 +37,8 @@ class Interfaz:
         ventAct.ventana.mainloop()
         self.indice += 1
         self.windows[self.indice].ventana.deiconify()
+'''
+
 
 class ScreenLogin:
 
@@ -166,13 +165,9 @@ class ScreenChoice:
     
 
 class ScreenGame:
-    sc = ScreenChoice()
-    titulo= sc.sortear_serie()
-    
             
     def __init__(self):
-        print (self.palabra2)
-        self.palabra2 = titulo
+        self.palabra2 = "hola"
         self.lista = []
         self.root = Tk()
         self.root.resizable(width=False, height=False)
@@ -186,7 +181,6 @@ class ScreenGame:
         self.reproductor.play()
     
         for i in range(len(self.palabra2)):
-            print(i)
             self.entry_text = StringVar() 
             self.respuesta = Entry(self.frameRespuesta, width=2, textvariable = self.entry_text, justify=CENTER)
             self.entry_text.trace("w", partial(self.limitador, self.entry_text))
@@ -218,8 +212,3 @@ class ScreenGame:
             print("Ganaste")
         else:
             print("Perdiste")
-                
-if __name__ == "__main__":
-    sg = ScreenGame()
-
-   
