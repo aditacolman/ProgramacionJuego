@@ -177,7 +177,7 @@ class ScreenGame:
         self.frameVideo.grid(column=0, row=0)
         self.labelVideo = Label(self.frameVideo)
         self.labelVideo.pack()
-        self.reproductor = tkvideo("QUEVEDO.mp4", self.labelVideo, loop = 1, size = (640,480))
+        self.reproductor = tkvideo("ok.mp4", self.labelVideo, loop = 1, size = (640,480))
         self.reproductor.play()
     
         for i in range(len(self.palabra2)):
