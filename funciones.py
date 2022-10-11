@@ -164,7 +164,7 @@ class ScreenChoice:
         
     
 
-class ScreenGame:
+class ScreenGame:  
             
     def __init__(self):
         self.palabra2 = "hola"
