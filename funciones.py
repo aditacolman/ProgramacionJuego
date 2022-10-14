@@ -7,39 +7,6 @@ import time
 from tkvideo import tkvideo
 from functools import partial
 
-'''
-class Interfaz:
-    indice = 0
-    
-    def __init__(self):
-        self.tipos = [self.crear_ventana_sesion, self.crear_ventana_eleccion, self.crear_ventana_juego]
-        self.siguiente()
-        
-    def crear_ventana_sesion(self):
-        ventanaSesion = ScreenLogin()
-        ventanaSesion.ventana.deiconify()
-        return ventanaSesion
-
-    def crear_ventana_eleccion(self):
-        ventanaEleccion= ScreenChoice()
-        ventanaEleccion.ventana.deiconify()
-        #ventanaEleccion.withdraw()
-        return ventanaEleccion
-    
-    def crear_ventana_juego(self):
-        ventanaJuego= ScreenGame()
-        #poner deiconify()
-        #ventanaJuego.withdraw()
-        return ventanaJuego
-    
-    def siguiente(self):
-        ventAct = self.tipos[self.indice]()
-        ventAct.ventana.mainloop()
-        self.indice += 1
-        self.windows[self.indice].ventana.deiconify()
-'''
-
-
 class ScreenLogin:
 
     def __init__(self):
