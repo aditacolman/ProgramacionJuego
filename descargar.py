@@ -25,6 +25,7 @@ class video:
     
     def __init__(self):
         self.ventana = Tk()
+        self.ventana2 = Tk()
         self.ventana.title("")
         self.mainFrame = Frame(self.ventana)
         self.mainFrame.pack()
@@ -48,8 +49,8 @@ class video:
         print(self.titulo)
         print("Video descargado")
             
-        self.frameRespuesta = Frame(self.ventana)
-        self.frameVideo = Frame(self.ventana)
+        self.frameRespuesta = Frame(self.ventana2)
+        self.frameVideo = Frame(self.ventana2)
         self.frameRespuesta.pack()
         self.frameVideo.pack()
         self.labelVideo = Label(self.frameVideo)

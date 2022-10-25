@@ -6,6 +6,7 @@ import random
 import time
 from tkvideo import tkvideo
 from functools import partial
+from pytube import YouTube
 
 class ScreenLogin:
 
@@ -56,7 +57,11 @@ class ScreenLogin:
 class ScreenChoice:
     
     def __init__(self):
+        self.url_peli = ""
+        self.url_serie = ""
         self.base = bd_utils.Base()
+        self.ventana2 = Tk()
+        self.ventana2.withdraw()
         self.ventana = Tk()
         self.ventana.title("")
         self.mainFrame = Frame(self.ventana)
@@ -64,9 +69,9 @@ class ScreenChoice:
         self.titulo = Label(self.mainFrame, text="Elección de juego", font=("Arial 24"))
         self.titulo.grid(column=0, row=0, padx=10, pady=10, columnspan=2)
         self.mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
-        self.serieBoton = Button(self.mainFrame, command= self.iniciarserie, text="Serie")
+        self.serieBoton = Button(self.mainFrame, text="Serie")
         self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        self.peliBoton = Button(self.mainFrame, command= self.iniciarpeli, text="Pelicula")
+        self.peliBoton = Button(self.mainFrame, command= self.dr_pelicula, text="Pelicula")
         self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         print(self.ventana.deiconify())
     
@@ -82,10 +87,9 @@ class ScreenChoice:
         nombre_peli = dicpelicula2['title']
         print(nombre_peli)
         id_imdb_peli = dicpelicula2['imDbId']
-        url_peli = dicpelicula2['videoUrl']
-        self.base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", url_peli)
+        self.url_peli = dicpelicula2['videoUrl']
+        self.base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", self.url_peli)
         print("Tráiler de las películas: {}".format(dicpelicula2['videoUrl']))
-        return url_peli
 
     def sortear_serie(self):
         url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
@@ -98,36 +102,30 @@ class ScreenChoice:
         dicseries2 = json.loads(response4.text)
         nombre_serie = dicseries2['title']
         id_imdb_serie = dicseries2['imDbId']
-        url_serie = dicseries2['videoUrl']
+        self.url_serie = dicseries2['videoUrl']
         self.base.guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", url_serie)
         print ("Tráiler de las series: {}".format(dicseries2['videoUrl']))
-        return url_serie, nombre_serie
     
-    def iniciarpeli(self):
-        try:
-            url = self.sortear_pelicula()
-            video = pafy.new(url)
-            best = video.getbest()
-            media = vlc.MediaPlayer(best.url)
-            media.play()
+    def dr_pelicula(self):
+        self.sortear_pelicula()
+        url= self.url_peli
+        self.video = YouTube(url)
+        video_streams = self.video.streams.filter(file_extension ='mp4').get_by_itag(22)
+        print("Descargando video")
+        self.titulo = video_streams.download()
+        self.video.streams[0].default_filename
+        print(self.titulo)
+        print("Video descargado")
             
-        except Exception as error_p:
-            print(error_p)
-            self.iniciarpeli()
-        self.ventana.state(newstate='withdraw')
-        sig= ScreenGame()
-
-    def iniciarserie(self):
-        try:
-            url= self.sortear_serie()
-            video = pafy.new(url)
-            best = video.getbest()
-            media = vlc.MediaPlayer(best.url)
-            media.play()
-            
-        except Exception as error_s:
-            print(error_s)
-            self.iniciarserie()
+        self.frameRespuesta = Frame(self.ventana2)
+        self.frameVideo = Frame(self.ventana2)
+        self.frameRespuesta.pack()
+        self.frameVideo.pack()
+        self.labelVideo = Label(self.frameVideo)
+        self.labelVideo.pack()
+        self.reproductor = tkvideo("rauw.mp4", self.labelVideo, loop = 1, size = (640,480))
+        self.reproductor.play()
+        self.ventana.mainloop()
         
     
 
@@ -179,3 +177,4 @@ class ScreenGame:
             print("Ganaste")
         else:
             print("Perdiste")
+            

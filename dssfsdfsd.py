@@ -53,7 +53,7 @@ class ScreenLogin:
             sig= ScreenChoice()
         else:
             print("Faltan datos")
-
+            
 class ScreenChoice:
     
     def __init__(self):
@@ -73,12 +73,48 @@ class ScreenChoice:
         self.mainFrame.config(width=400, height=200) #bg= "#1AA1EE")
         self.serieBoton = Button(self.mainFrame, text="Serie")
         self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
+        self.peliBoton = Button(self.mainFrame, command= self.dr_pelicula, text="Pelicula")
         self.peliBoton = Button(self.mainFrame, command= self.sortear_pelicula, text="Pelicula")
         self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         print(self.ventana.deiconify())
-    
+
+    def sortear_pelicula(self):
+        url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
+        url_peliculaspopulares= "https://imdb-api.com/en/API/MostPopularMovies/k_b4axdozw"
+        peliazar=random.randint(0,99)
+        response= requests.request("GET", url_peliculaspopulares)
+        dicpelicula = json.loads(response.text)
+        id_peliculas= dicpelicula['items'][peliazar]['id']
+        response2= requests.request("GET", url.format(id_peliculas))
+        dicpelicula2= json.loads(response2.text)
+        nombre_peli = dicpelicula2['title']
+        print(nombre_peli)
+        id_imdb_peli = dicpelicula2['imDbId']
+        self.url_peli = dicpelicula2['videoUrl']
+        self.base.guardar_ps(id_imdb_peli, nombre_peli, False, "", "PELICULA", self.url_peli)
+        print("Tráiler de las películas: {}".format(dicpelicula2['videoUrl']))
+        return self.url_peli
+        
     def sortear(self):
         url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
+        url_seriespopulares = "https://imdb-api.com/en/API/MostPopularTVs/k_b4axdozw"
+        serieazar=random.randint(0,99)
+        response3= requests.request("GET", url_seriespopulares)
+        dicseries= json.loads(response3.text)
+        id_series= dicseries['items'][serieazar]['id']
+        response4= requests.request("GET", url.format(id_series))
+        dicseries2 = json.loads(response4.text)
+        nombre_serie = dicseries2['title']
+        id_imdb_serie = dicseries2['imDbId']
+        self.url_serie = dicseries2['videoUrl']
+        self.base.guardar_ps(id_imdb_serie, nombre_serie, False, "", "SERIE", self.url_serie)
+        print ("Tráiler: {}".format(dicseries2['videoUrl']))
+        self.reproductor()
+
+    def dr_pelicula(self):
+        self.ventana.withdraw()
+        self.sortear_pelicula()
+        url = self.url_peli
         self.url_final= "https://imdb-api.com/en/API/MostPopularMovies/k_b4axdozw"
         azar = random.randint(0,99)
         response = requests.request("GET", self.url_final)
@@ -91,16 +127,16 @@ class ScreenChoice:
         id_imdb = dic2['imDbId']
         self.url_sorteada = dic2['videoUrl']
         self.base.guardar_ps(id_imdb, self.palabra2, False, "", self.tipo, self.url_sorteada)
-        url= self.url_sorteada
+        url = self.url_sorteada
         print(url)
         video = YouTube(url)
         video_streams = video.streams.filter(file_extension ='mp4').get_by_itag(22)
         print("Descargando video")
-        self.titulo = video_streams.download(filename = "hola.mp4")
+        self.titulo = video_streams.download(filename = "1.mp4")
         video.streams[0].default_filename
         print(self.titulo)
         print("Video descargado")
-                
+
     def reproductor(self):
         self.ventana.withdraw()
         self.ventana2.deiconify()
@@ -110,56 +146,23 @@ class ScreenChoice:
         self.frameVideo.pack()
         self.labelVideo = Label(self.frameVideo)
         self.labelVideo.pack()
-        self.titulo="rauw.mp4"
         self.reproductor = tkvideo("{}".format(self.titulo), self.labelVideo, loop = 1, size = (640,480))
         self.reproductor.play()
-        
-        for i in range(len(self.palabra2)):
-            self.entry_text = StringVar() 
-            self.respuesta = Entry(self.frameRespuesta, width=2, textvariable = self.entry_text, justify=CENTER)
-            self.entry_text.trace("w", partial(self.limitador, self.entry_text))
-            self.lista.append(self.respuesta)
-            self.respuesta.grid(column=i,row=0)
-            self.verificarBoton = Button(self.frameRespuesta, text="ok", command=partial(self.valorar))
-            self.verificarBoton.grid(column=0,row=1)
-        
-    def limitador(self, *entry_text):
-        pos = int(entry_text[1][6:])
-        print(pos)
-        if(self.lista[pos].get()):
-            if pos < len(self.lista)-1:
-                self.lista[pos+1].focus_set()
-            if len(entry_text[0].get()) > 0:
-                entry_text[0].set(entry_text[0].get()[:1].upper())
-        else:
-            self.lista[pos-1].focus_set()
-            if len(entry_text[0].get()) > 0:
-                entry_text[0].set(entry_text[0].get()[:1].upper())
-    
-    def valorar(self):
-        self.nombre = ""
-        for i in self.lista:
-            self.letra = i.get()
-            self.nombre += self.letra
-        if self.nombre.upper() == self.palabra2.upper():
-            print("Ganaste")
-        else:
-            print("Perdiste")
-        
+        self.ventana2.mainloop()
         #self.ventana2.mainloop()
-    
+
     def sortear_pelicula(self):
         self.tipo = "PELICULA"
         self.url_final= "https://imdb-api.com/en/API/MostPopularMovies/k_b4axdozw"
         self.sortear()
-        self.reproductor()
-        
+
     def sortear_serie(self):
         self.tipo = "SERIE"
         self.url_final = "https://imdb-api.com/en/API/MostPopularTVs/k_b4axdozw"
         self.sortear()
         self.reproductor()
-        
-    
+
+
 inicio = ScreenChoice()
-inicio.sortear_pelicula()
+inicio.dr_pelicula()
+
