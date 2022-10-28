@@ -72,26 +72,27 @@ class VentanaJuego:
         self.url = ""
         self.nombre = ""
         self.nombreJuego = ""
+        self.eleccion= {"PELICULA": self.sortear_pelicula, "SERIE": self.sortear_serie}
         self.ponerFoto()
         self.ventanaPrincipal.mainloop()
         
     def ponerFoto(self):
         #config al Frame de seccionFotoVid
-        lomo = ImageTk.PhotoImage(Image.open('fotoPS.jpg'))
-        self.l2 = tkinter.Label(self.seccionFotoVid, image=lomo)
-        self.l2.grid(column=0, row=0)
-
+        self.portada = ImageTk.PhotoImage(file="fotoSP.jpg")
+        self.portadaLabel = tkinter.Label(self.seccionFotoVid, image=self.portada)
+        self.portadaLabel.pack()
         #self.labelVideo.destroy()
 
     
     def ponerVideo(self):
         #config al Frame de seccionFotoVid
-        #self.labelFoto.destroy()
+        self.portadaLabel.destroy()
         self.labelVideo = tkinter.Label(self.seccionFotoVid)
         self.labelVideo.pack()
         self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 1, size = (640,480))
         self.ponerLetras()
         self.reproductor.play()
+        self.seccionBotones.destroy()   
     
     def ponerLetras(self):
         for i in range(len(self.nombreJuego)):
@@ -122,10 +123,13 @@ class VentanaJuego:
             nombre += letra
         if nombre.upper() == self.nombreJuego.upper():
             print("Ganaste")
+            self.labelVideo.destroy()
+            self.eleccion[self.tipo]()
         else:
             print("Perdiste")
-        self.ponerFoto()
-        
+            self.labelVideo.destroy()
+            self.seccionLetras.destroy()
+            self.ponerFoto()
         
     def descargarVideo(self):
         url = self.url
@@ -147,21 +151,24 @@ class VentanaJuego:
         self.sortear()
         
     def sortear(self):
-        url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
-        azar = random.randint(0,99)
-        response = requests.request("GET", self.url_final)
-        dic = json.loads(response.text)
-        id = dic['items'][azar]['id']
-        response2= requests.request("GET", url.format(id))
-        dic2 = json.loads(response2.text)
-        self.nombreJuego = dic2['title']
-        self.nombreJuego = self.nombreJuego.replace(" ","").lower()
-        print(self.nombreJuego)
-        id_imdb = dic2['imDbId']
-        self.url = dic2['videoUrl']
-        print(self.url)
-        self.descargarVideo()
-        
+        try:
+            url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
+            azar = random.randint(0,99)
+            response = requests.request("GET", self.url_final)
+            dic = json.loads(response.text)
+            id = dic['items'][azar]['id']
+            response2= requests.request("GET", url.format(id))
+            dic2 = json.loads(response2.text)
+            self.nombreJuego = dic2['title']
+            self.nombreJuego = self.nombreJuego.replace(" ","").lower()
+            print(self.nombreJuego)
+            id_imdb = dic2['imDbId']
+            self.url = dic2['videoUrl']
+            print(self.url)
+            self.descargarVideo()
+        except Exception as error_s:
+            print(error_s)
+            self.sortear_pelicula()
 
 if  __name__ == "__main__":
     v = VentanaJuego()
