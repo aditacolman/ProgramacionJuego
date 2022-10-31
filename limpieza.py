@@ -60,9 +60,9 @@ class VentanaJuego:
         self.ventanaPrincipal = tkinter.Tk()
         self.seccionFotoVid = tkinter.Frame(self.ventanaPrincipal)
         self.seccionBotones = tkinter.Frame(self.ventanaPrincipal)
-        self.seccionLetras = tkinter.Frame(self.ventanaPrincipal)
-        self.seccionLetras.grid(column=0, row=0)
+        self.seccionSuperior = tkinter.Frame(self.ventanaPrincipal)
         self.seccionFotoVid.grid(column=0, row=1)
+        self.seccionSuperior.grid(column=0, row=0)
         self.seccionBotones.grid(column=0, row=2)
         self.serieBoton = tkinter.Button(self.seccionBotones, command=self.sortear_serie, text="Serie")
         self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
@@ -95,6 +95,8 @@ class VentanaJuego:
         self.seccionBotones.destroy()   
     
     def ponerLetras(self):
+        self.seccionLetras = tkinter.Frame(self.seccionSuperior)
+        self.seccionLetras.grid(column=0, row=0)
         for i in range(len(self.nombreJuego)):
             self.entry_text = tkinter.StringVar() 
             self.respuesta = tkinter.Entry(self.seccionLetras, width=2, textvariable = self.entry_text, justify=tkinter.CENTER)
@@ -121,15 +123,15 @@ class VentanaJuego:
         for i in self.listaLetras:
             letra = i.get()
             nombre += letra
-        if nombre.upper() == self.nombreJuego.upper():
+        res= nombre.upper() == self.nombreJuego.upper()
+        del self.reproductor
+        self.labelVideo.destroy()
+        self.seccionLetras.destroy()
+        if res:
             print("Ganaste")
-            self.labelVideo.destroy()
             self.eleccion[self.tipo]()
         else:
-            print("Perdiste")
-            self.labelVideo.destroy()
-            self.seccionLetras.destroy()
-            self.ponerFoto()
+            print("Perdiste")    
         
     def descargarVideo(self):
         url = self.url
