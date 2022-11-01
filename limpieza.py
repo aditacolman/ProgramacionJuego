@@ -60,14 +60,16 @@ class VentanaJuego:
         self.ventanaPrincipal = tkinter.Tk()
         self.seccionFotoVid = tkinter.Frame(self.ventanaPrincipal)
         self.seccionBotones = tkinter.Frame(self.ventanaPrincipal)
-        self.seccionSuperior = tkinter.Frame(self.ventanaPrincipal)
+        #self.seccionSuperior = tkinter.Frame(self.ventanaPrincipal, bg= "black")
         self.seccionFotoVid.grid(column=0, row=1)
-        self.seccionSuperior.grid(column=0, row=0)
+        #self.seccionSuperior.grid(column=0, row=0)
         self.seccionBotones.grid(column=0, row=2)
         self.serieBoton = tkinter.Button(self.seccionBotones, command=self.sortear_serie, text="Serie")
         self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         self.peliBoton = tkinter.Button(self.seccionBotones, command=self.sortear_pelicula, text="Pelicula")
         self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
+        self.seccionLetras = tkinter.Frame(self.ventanaPrincipal)
+        self.verificarBoton = tkinter.Button(self.seccionLetras, text="ok", command=partial(self.valorar))
         self.listaLetras = []
         self.url = ""
         self.nombre = ""
@@ -89,13 +91,12 @@ class VentanaJuego:
         self.portadaLabel.destroy()
         self.labelVideo = tkinter.Label(self.seccionFotoVid)
         self.labelVideo.pack()
-        self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 1, size = (640,480))
+        self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 0, size = (640,480))
         self.ponerLetras()
         self.reproductor.play()
-        self.seccionBotones.destroy()   
     
     def ponerLetras(self):
-        self.seccionLetras = tkinter.Frame(self.seccionSuperior)
+        
         self.seccionLetras.grid(column=0, row=0)
         for i in range(len(self.nombreJuego)):
             self.entry_text = tkinter.StringVar() 
@@ -103,8 +104,8 @@ class VentanaJuego:
             self.entry_text.trace("w", partial(self.limitador, self.entry_text))
             self.listaLetras.append(self.respuesta)
             self.respuesta.grid(column=i,row=0)
-            self.verificarBoton = tkinter.Button(self.seccionLetras, text="ok", command=partial(self.valorar))
-            self.verificarBoton.grid(column=len(self.nombreJuego),row=1)
+            
+            self.verificarBoton.grid(column=len(self.nombreJuego),row=0)
     
     def limitador(self, *entry_text):
         pos = int(entry_text[1][6:])
@@ -123,15 +124,18 @@ class VentanaJuego:
         for i in self.listaLetras:
             letra = i.get()
             nombre += letra
-        res= nombre.upper() == self.nombreJuego.upper()
-        del self.reproductor
+        res = nombre.upper() == self.nombreJuego.upper()
+        self.reproductor.destroy()
+        
         self.labelVideo.destroy()
         self.seccionLetras.destroy()
         if res:
             print("Ganaste")
             self.eleccion[self.tipo]()
         else:
-            print("Perdiste")    
+            print("Perdiste")
+            self.ponerFoto()
+            
         
     def descargarVideo(self):
         url = self.url
