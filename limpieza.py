@@ -1,5 +1,5 @@
 import tkinter
-from tkvideo import tkvideo
+from tkvideonew import tkvideo
 from functools import partial
 from pytube import YouTube
 import random
@@ -7,6 +7,7 @@ import json
 import requests
 import bd_utils
 from PIL import ImageTk, Image
+
 
 class VentanaLogin:
 
@@ -125,9 +126,11 @@ class VentanaJuego:
             letra = i.get()
             nombre += letra
         res = nombre.upper() == self.nombreJuego.upper()
-        self.reproductor.destroy()
-        
-        self.labelVideo.destroy()
+        print("ANTES")
+        self.reproductor.destroy() 
+        print("Reproductor stop")
+        #self.labelVideo.destroy()
+        print("Label stop")
         self.seccionLetras.destroy()
         if res:
             print("Ganaste")
