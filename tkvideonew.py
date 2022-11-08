@@ -37,24 +37,58 @@ class tkvideo():
         self.loop = loop
         self.size = size
         self.stop = False
+        self.frameNumber = 0
     
-    def load(self, path, label, loop):
+    def load2(self, path, label, loop, offset):
         """
             Loads the video's frames recursively onto the selected label widget's image parameter.
             Loop parameter controls whether the function will run in an infinite loop
             or once.
         """
         frame_data = imageio.get_reader(path)
+        self.lengthVideo = len(frame_data)
+        self.frameInitial = int(self.lengthVideo * offset /100)
 
+        
         if loop == 1:
             while True:
                 for image in frame_data.iter_data():
-                    frame_image = ImageTk.PhotoImage(Image.fromarray(image).resize(self.size))
-                    label.config(image=frame_image)
-                    label.image = frame_image
-                    if self.stop:
+                    self.frameNumber+=1
+                    if self.frameNumber > 2000:
+                        frame_image = ImageTk.PhotoImage(Image.fromarray(image).resize(self.size))
+                        label.config(image=frame_image)
+                        label.image = frame_image
+                        if self.stop:
+                            label.destroy()
+                            return True
+        
+    def load(self, path, label, loop, offset):
+        """
+            Loads the video's frames recursively onto the selected label widget's image parameter.
+            Loop parameter controls whether the function will run in an infinite loop
+            or once.
+        """
+        frame_data = imageio.get_reader(path)
+        metadata = frame_data.get_meta_data()
+        print(metadata['fps'] * metadata['duration'])
+         
+        if loop == 1:
+            while True:
+                while not self.stop:
+                    try:
+                        self.frameNumber+=1
+                        image = frame_data.get_data(self.frameNumber + offset)
+                        frame_image = ImageTk.PhotoImage(Image.fromarray(image).resize(self.size))
+                        label.config(image=frame_image)
+                        label.image = frame_image
+                        if self.stop:
+                            label.destroy()
+                            return True
+                    except:
+                        print(self.frameNumber)
                         label.destroy()
                         return True
+        
         else:
             for image in frame_data.iter_data():
                 frame_image = ImageTk.PhotoImage(Image.fromarray(image).resize(self.size))
@@ -64,12 +98,12 @@ class tkvideo():
                     label.destroy()
                     return True	
     
-    def play(self):
+    def play(self, offset):
         """
             Creates and starts a thread as a daemon that plays the video by rapidly going through
             the video's frames.
         """
-        self.thread = threading.Thread(target=self.load, args=(self.path, self.label, self.loop))
+        self.thread = threading.Thread(target=self.load, args=(self.path, self.label, self.loop, offset))
         self.thread.daemon = 1
         self.thread.start()
     

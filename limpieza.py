@@ -92,12 +92,12 @@ class VentanaJuego:
         self.portadaLabel.destroy()
         self.labelVideo = tkinter.Label(self.seccionFotoVid)
         self.labelVideo.pack()
-        self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 0, size = (640,480))
+        self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 1, size = (640,480))
         self.ponerLetras()
-        self.reproductor.play()
+        
+        self.reproductor.play(100)
     
     def ponerLetras(self):
-        
         self.seccionLetras.grid(column=0, row=0)
         for i in range(len(self.nombreJuego)):
             self.entry_text = tkinter.StringVar() 
