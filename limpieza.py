@@ -69,8 +69,8 @@ class VentanaJuego:
         self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         self.peliBoton = tkinter.Button(self.seccionBotones, command=self.sortear_pelicula, text="Pelicula")
         self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        self.seccionLetras = tkinter.Frame(self.ventanaPrincipal)
-        self.verificarBoton = tkinter.Button(self.seccionLetras, text="ok", command=partial(self.valorar))
+        
+        
         self.listaLetras = []
         self.url = ""
         self.nombre = ""
@@ -89,14 +89,21 @@ class VentanaJuego:
     
     def ponerVideo(self):
         #config al Frame de seccionFotoVid
+        self.seccionLetras = tkinter.Frame(self.ventanaPrincipal)
+        self.verificarBoton = tkinter.Button(self.seccionLetras, text="ok", command=partial(self.valorar))
         self.portadaLabel.destroy()
+        print("antes")
         self.labelVideo = tkinter.Label(self.seccionFotoVid)
+        print("antes2")
         self.labelVideo.pack()
+        print("despues")
         self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 1, size = (640,480))
+        print("despues2")
         self.ponerLetras()
-        
+        print("despues3")
         self.reproductor.play(100)
-    
+        print("despues4")
+        
     def ponerLetras(self):
         self.seccionLetras.grid(column=0, row=0)
         for i in range(len(self.nombreJuego)):
@@ -105,7 +112,6 @@ class VentanaJuego:
             self.entry_text.trace("w", partial(self.limitador, self.entry_text))
             self.listaLetras.append(self.respuesta)
             self.respuesta.grid(column=i,row=0)
-            
             self.verificarBoton.grid(column=len(self.nombreJuego),row=0)
     
     def limitador(self, *entry_text):
@@ -127,7 +133,7 @@ class VentanaJuego:
             nombre += letra
         res = nombre.upper() == self.nombreJuego.upper()
         print("ANTES")
-        self.reproductor.destroy() 
+        self.reproductor.destroy()
         print("Reproductor stop")
         #self.labelVideo.destroy()
         print("Label stop")
@@ -138,6 +144,7 @@ class VentanaJuego:
         else:
             print("Perdiste")
             self.ponerFoto()
+        self.listaLetras = []
             
         
     def descargarVideo(self):

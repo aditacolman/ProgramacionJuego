@@ -70,7 +70,7 @@ class tkvideo():
         """
         frame_data = imageio.get_reader(path)
         metadata = frame_data.get_meta_data()
-        print(metadata['fps'] * metadata['duration'])
+        duracionvideo = metadata['fps'] * metadata['duration']
          
         if loop == 1:
             while True:
