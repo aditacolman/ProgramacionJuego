@@ -8,7 +8,6 @@ import requests
 import bd_utils
 from PIL import ImageTk, Image
 
-
 class VentanaLogin:
 
     def __init__(self):
@@ -61,16 +60,12 @@ class VentanaJuego:
         self.ventanaPrincipal = tkinter.Tk()
         self.seccionFotoVid = tkinter.Frame(self.ventanaPrincipal)
         self.seccionBotones = tkinter.Frame(self.ventanaPrincipal)
-        #self.seccionSuperior = tkinter.Frame(self.ventanaPrincipal, bg= "black")
         self.seccionFotoVid.grid(column=0, row=1)
-        #self.seccionSuperior.grid(column=0, row=0)
         self.seccionBotones.grid(column=0, row=2)
         self.serieBoton = tkinter.Button(self.seccionBotones, command=self.sortear_serie, text="Serie")
         self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         self.peliBoton = tkinter.Button(self.seccionBotones, command=self.sortear_pelicula, text="Pelicula")
-        self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        
-        
+        self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)        
         self.listaLetras = []
         self.url = ""
         self.nombre = ""
@@ -80,29 +75,20 @@ class VentanaJuego:
         self.ventanaPrincipal.mainloop()
         
     def ponerFoto(self):
-        #config al Frame de seccionFotoVid
         self.portada = ImageTk.PhotoImage(file="fotoSP.jpg")
         self.portadaLabel = tkinter.Label(self.seccionFotoVid, image=self.portada)
         self.portadaLabel.pack()
-        #self.labelVideo.destroy()
 
-    
     def ponerVideo(self):
-        #config al Frame de seccionFotoVid
         self.seccionLetras = tkinter.Frame(self.ventanaPrincipal)
         self.verificarBoton = tkinter.Button(self.seccionLetras, text="ok", command=partial(self.valorar))
         self.portadaLabel.destroy()
-        print("antes")
         self.labelVideo = tkinter.Label(self.seccionFotoVid)
-        print("antes2")
         self.labelVideo.pack()
-        print("despues")
         self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 1, size = (640,480))
-        print("despues2")
         self.ponerLetras()
-        print("despues3")
         self.reproductor.play(100)
-        print("despues4")
+        #ocultar botones cuando se reproduce el video
         
     def ponerLetras(self):
         self.seccionLetras.grid(column=0, row=0)
@@ -113,6 +99,7 @@ class VentanaJuego:
             self.listaLetras.append(self.respuesta)
             self.respuesta.grid(column=i,row=0)
             self.verificarBoton.grid(column=len(self.nombreJuego),row=0)
+        #vaciar la lista para que se pueda volver a usar el limitador
     
     def limitador(self, *entry_text):
         pos = int(entry_text[1][6:])
@@ -125,18 +112,15 @@ class VentanaJuego:
             self.listaLetras[pos-1].focus_set()
             if len(entry_text[0].get()) > 0:
                 entry_text[0].set(entry_text[0].get()[:1].upper())
-    
+        #self.listaLetras = []
+        
     def valorar(self):
         nombre = ""
         for i in self.listaLetras:
             letra = i.get()
             nombre += letra
         res = nombre.upper() == self.nombreJuego.upper()
-        print("ANTES")
         self.reproductor.destroy()
-        print("Reproductor stop")
-        #self.labelVideo.destroy()
-        print("Label stop")
         self.seccionLetras.destroy()
         if res:
             print("Ganaste")
@@ -145,7 +129,6 @@ class VentanaJuego:
             print("Perdiste")
             self.ponerFoto()
         self.listaLetras = []
-            
         
     def descargarVideo(self):
         url = self.url
