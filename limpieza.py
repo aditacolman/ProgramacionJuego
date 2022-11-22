@@ -152,7 +152,10 @@ class VentanaJuego:
         
     def sortear_BD(self):
         resp = self.base.buscar_BD()
+        url= self.base.buscar_BD(['URL'])
+        titulo= ['Nombre']
         print(resp)
+        print(titulo)
         
     def sortear_API(self):
         url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
