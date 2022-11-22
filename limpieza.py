@@ -67,6 +67,7 @@ class VentanaJuego:
         self.peliBoton = tkinter.Button(self.seccionBotones, command=self.sortear_pelicula, text="Pelicula")
         self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)        
         self.listaLetras = []
+        self.base = bd_utils.Base()
         self.url = ""
         self.nombre = ""
         self.nombreJuego = ""
@@ -149,25 +150,32 @@ class VentanaJuego:
         self.url_final = "https://imdb-api.com/en/API/MostPopularTVs/k_b4axdozw"
         self.sortear()
         
+    def sortear_BD(self):
+        resp = self.base.buscar_BD()
+        print(resp)
+        
+    def sortear_API(self):
+        url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
+        azar = random.randint(0,99)
+        response = requests.request("GET", self.url_final)
+        dic = json.loads(response.text)
+        id = dic['items'][azar]['id']
+        response2= requests.request("GET", url.format(id))
+        dic2 = json.loads(response2.text)
+        self.nombreJuego = dic2['title']
+        self.nombreJuego = self.nombreJuego.replace(" ","").lower()
+        print(self.nombreJuego)
+        id_imdb = dic2['imDbId']
+        self.url = dic2['videoUrl']
+        print(self.url)
+        self.descargarVideo()
+    
     def sortear(self):
         try:
-            url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
-            azar = random.randint(0,99)
-            response = requests.request("GET", self.url_final)
-            dic = json.loads(response.text)
-            id = dic['items'][azar]['id']
-            response2= requests.request("GET", url.format(id))
-            dic2 = json.loads(response2.text)
-            self.nombreJuego = dic2['title']
-            self.nombreJuego = self.nombreJuego.replace(" ","").lower()
-            print(self.nombreJuego)
-            id_imdb = dic2['imDbId']
-            self.url = dic2['videoUrl']
-            print(self.url)
-            self.descargarVideo()
+            self.sortear_API()
         except Exception as error_s:
-            print(error_s)
-            self.sortear_pelicula()
+            self.sortear_BD()
 
 if  __name__ == "__main__":
     v = VentanaJuego()
+    v.sortear_BD()

@@ -25,9 +25,10 @@ class Base:
         self.cursor.execute(sql.format(id_imdb, nombre, nom_ac, nom_su, tipo, url))
         self.conexion.commit()
         
-    def buscar_BD(self, nombre, url):
+    def buscar_BD(self):
         self.cursor.execute('SELECT Nombre, URL FROM PELICULASYSERIES WHERE URL <> "" ORDER BY random() LIMIT 1;')
-        self.conexion.commit()
+        respuesta= self.cursor.fetchall()
+        return respuesta
         
     def existe_usuario(self, usuario):
         self.cursor.execute('SELECT * FROM USUARIOS WHERE Usuario ="{}";'.format(usuario))
