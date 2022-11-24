@@ -88,8 +88,9 @@ class VentanaJuego:
         self.labelVideo.pack()
         self.reproductor = tkvideo(self.nombre, self.labelVideo, loop = 1, size = (640,480))
         self.ponerLetras()
+        self.peliBoton.grid_forget()
+        self.serieBoton.grid_forget()
         self.reproductor.play(100)
-        #ocultar botones cuando se reproduce el video
         
     def ponerLetras(self):
         self.seccionLetras.grid(column=0, row=0)
@@ -129,6 +130,8 @@ class VentanaJuego:
         else:
             print("Perdiste")
             self.ponerFoto()
+            self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
+            self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
         self.listaLetras = []
         
     def descargarVideo(self):
@@ -142,43 +145,48 @@ class VentanaJuego:
     
     def sortear_pelicula(self):
         self.tipo = "PELICULA"
-        self.url_final= "https://imdb-api.com/en/API/MostPopularMovies/k_b4axdozw"
-        self.sortear()
+        self.url_final= "https://imdb-api.com/en/API/MostPopularMovies/k_8ruvtuyg"
+        self.sortear_API()
         
     def sortear_serie(self):
         self.tipo = "SERIE"
-        self.url_final = "https://imdb-api.com/en/API/MostPopularTVs/k_b4axdozw"
-        self.sortear()
+        self.url_final = "https://imdb-api.com/en/API/MostPopularTVs/k_8ruvtuyg"
+        self.sortear_API()
         
     def sortear_BD(self):
-        resp = self.base.buscar_BD()
+        pass
+        '''resp = self.base.buscar_BD()
         url= self.base.buscar_BD(['URL'])
         titulo= ['Nombre']
         print(resp)
-        print(titulo)
+        print(titulo)'''
         
     def sortear_API(self):
-        url= "https://imdb-api.com/en/API/YouTubeTrailer/k_b4axdozw/{}"
-        azar = random.randint(0,99)
-        response = requests.request("GET", self.url_final)
-        dic = json.loads(response.text)
-        id = dic['items'][azar]['id']
-        response2= requests.request("GET", url.format(id))
-        dic2 = json.loads(response2.text)
-        self.nombreJuego = dic2['title']
-        self.nombreJuego = self.nombreJuego.replace(" ","").lower()
-        print(self.nombreJuego)
-        id_imdb = dic2['imDbId']
-        self.url = dic2['videoUrl']
-        print(self.url)
-        self.descargarVideo()
-    
+        try:
+            url= "https://imdb-api.com/en/API/YouTubeTrailer/k_8ruvtuyg/{}"
+            azar = random.randint(0,99)
+            response = requests.request("GET", self.url_final)
+            dic = json.loads(response.text)
+            id = dic['items'][azar]['id']
+            response2= requests.request("GET", url.format(id))
+            dic2 = json.loads(response2.text)
+            self.nombreJuego = dic2['title']
+            self.nombreJuego = self.nombreJuego.replace(" ","").lower()
+            print(self.nombreJuego)
+            id_imdb = dic2['imDbId']
+            self.url = dic2['videoUrl']
+            print(self.url)
+            self.descargarVideo()
+        except Exception as error_s:
+            self.sortear_API()
+        
+    '''
     def sortear(self):
         try:
             self.sortear_API()
         except Exception as error_s:
-            self.sortear_BD()
+            self.sortear_API()
+    '''
 
 if  __name__ == "__main__":
     v = VentanaJuego()
-    v.sortear_BD()

@@ -109,4 +109,3 @@ class tkvideo():
     
     def destroy(self):
         self.stop = True
-        print("destruido")
