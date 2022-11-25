@@ -95,9 +95,9 @@ class VentanaJuego:
     def ponerLetras(self):
         self.seccionLetras.grid(column=0, row=0)
         for i in range(len(self.nombreJuego)):
-            self.entry_text = tkinter.StringVar() 
-            self.respuesta = tkinter.Entry(self.seccionLetras, width=2, textvariable = self.entry_text, justify=tkinter.CENTER)
-            self.entry_text.trace("w", partial(self.limitador, self.entry_text))
+            self.entry_text1 = tkinter.StringVar() 
+            self.respuesta = tkinter.Entry(self.seccionLetras, width=2, textvariable = self.entry_text1, justify=tkinter.CENTER)
+            self.entry_text1.trace("w", partial(self.limitador, self.entry_text1))
             self.listaLetras.append(self.respuesta)
             self.respuesta.grid(column=i,row=0)
             self.verificarBoton.grid(column=len(self.nombreJuego),row=0)
@@ -114,7 +114,7 @@ class VentanaJuego:
             self.listaLetras[pos-1].focus_set()
             if len(entry_text[0].get()) > 0:
                 entry_text[0].set(entry_text[0].get()[:1].upper())
-        #self.listaLetras = []
+        entry_text= self.listaLimitador
         
     def valorar(self):
         nombre = ""
@@ -124,6 +124,7 @@ class VentanaJuego:
         res = nombre.upper() == self.nombreJuego.upper()
         self.reproductor.destroy()
         self.seccionLetras.destroy()
+        self.listaLimitador= tuple()
         if res:
             print("Ganaste")
             self.eleccion[self.tipo]()
@@ -132,7 +133,7 @@ class VentanaJuego:
             self.ponerFoto()
             self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
             self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        self.listaLetras = []
+        self.listaLetras.clear()
         
     def descargarVideo(self):
         url = self.url
