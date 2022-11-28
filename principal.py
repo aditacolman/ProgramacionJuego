@@ -73,6 +73,7 @@ class VentanaJuego:
         self.nombreJuego = ""
         self.eleccion= {"PELICULA": self.sortear_pelicula, "SERIE": self.sortear_serie}
         self.ponerFoto()
+        self.palabras = 0
         self.ventanaPrincipal.mainloop()
         
     def ponerFoto(self):
@@ -95,16 +96,18 @@ class VentanaJuego:
     def ponerLetras(self):
         self.seccionLetras.grid(column=0, row=0)
         for i in range(len(self.nombreJuego)):
-            self.entry_text1 = tkinter.StringVar() 
-            self.respuesta = tkinter.Entry(self.seccionLetras, width=2, textvariable = self.entry_text1, justify=tkinter.CENTER)
-            self.entry_text1.trace("w", partial(self.limitador, self.entry_text1))
-            self.listaLetras.append(self.respuesta)
-            self.respuesta.grid(column=i,row=0)
-            self.verificarBoton.grid(column=len(self.nombreJuego),row=0)
+            entry_text = tkinter.StringVar() 
+            respuesta = tkinter.Entry(self.seccionLetras, width=2, textvariable = entry_text, justify=tkinter.CENTER)
+            entry_text.trace("w", partial(self.limitador, entry_text))
+            self.listaLetras.append(respuesta)
+            respuesta.grid(column=i,row=0)
+            self.verificarBoton.grid(column=len(self.nombreJuego), row=0)
         #vaciar la lista para que se pueda volver a usar el limitador
     
     def limitador(self, *entry_text):
-        pos = int(entry_text[1][6:])
+        print(entry_text)
+        pos = int(entry_text[1][6:]) - self.palabras
+        print(pos)
         if(self.listaLetras[pos].get()):
             if pos < len(self.listaLetras)-1:
                 self.listaLetras[pos+1].focus_set()
@@ -112,9 +115,8 @@ class VentanaJuego:
                 entry_text[0].set(entry_text[0].get()[:1].upper())
         else:
             self.listaLetras[pos-1].focus_set()
-            if len(entry_text[0].get()) > 0:
+        if len(entry_text[0].get()) > 0:
                 entry_text[0].set(entry_text[0].get()[:1].upper())
-        entry_text= self.listaLimitador
         
     def valorar(self):
         nombre = ""
@@ -124,16 +126,17 @@ class VentanaJuego:
         res = nombre.upper() == self.nombreJuego.upper()
         self.reproductor.destroy()
         self.seccionLetras.destroy()
-        self.listaLimitador= tuple()
         if res:
             print("Ganaste")
             self.eleccion[self.tipo]()
+            self.palabras += len(self.listaLetras)
         else:
             print("Perdiste")
             self.ponerFoto()
             self.peliBoton.grid(column=0, row=3, ipadx=2, ipady=2, padx=5, pady=5)
             self.serieBoton.grid(column=1, row=3, ipadx=2, ipady=2, padx=5, pady=5)
-        self.listaLetras.clear()
+            self.palabras = 0
+        print(self.palabras)
         
     def descargarVideo(self):
         url = self.url
