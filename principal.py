@@ -106,18 +106,15 @@ class VentanaJuego:
     
     def limitador(self, *entry_text):
         print(entry_text)
-        pos = int(entry_text[1][6:]) - self.palabras
-        print(pos)
+        pos = int(entry_text[1][6:]) - self.palabras 
         if(self.listaLetras[pos].get()):
             if pos < len(self.listaLetras)-1:
                 self.listaLetras[pos+1].focus_set()
-            if len(entry_text[0].get()) > 0:
-                entry_text[0].set(entry_text[0].get()[:1].upper())
         else:
             self.listaLetras[pos-1].focus_set()
         if len(entry_text[0].get()) > 0:
-                entry_text[0].set(entry_text[0].get()[:1].upper())
-        
+            entry_text[0].set(entry_text[0].get()[:1].upper())
+                
     def valorar(self):
         nombre = ""
         for i in self.listaLetras:
